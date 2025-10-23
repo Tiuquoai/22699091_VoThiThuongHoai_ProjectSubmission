@@ -14,4 +14,4 @@ RUN npm install
 COPY . .
 
 # Lệnh chạy app khi container khởi động
-CMD ["node", "index.js"]
+CMD [ "npx" , "nodemon" , "-L", "index.js"]

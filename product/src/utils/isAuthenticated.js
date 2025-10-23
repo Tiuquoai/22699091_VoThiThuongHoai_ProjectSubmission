@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
+// require("dotenv").config();
 
 function isAuthenticated(req, res, next) {
   // Check for the presence of an authorization header
@@ -20,7 +20,7 @@ function isAuthenticated(req, res, next) {
   const token = arr[1];
   // const typeOfToken = arr[0];
 
-
+  // console.log('Token:', token);
   try {
     // Verify the token using the JWT library and the secret key
     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);

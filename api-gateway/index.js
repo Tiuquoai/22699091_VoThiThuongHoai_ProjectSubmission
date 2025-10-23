@@ -6,6 +6,7 @@ const app = express();
 
 // Route requests to the auth service
 app.use("/auth", (req, res) => {
+  console.log('tôi đã vào đây')
   req.url = "/auth" + req.url;
   proxy.web(req, res, { target: "http://tiuquoai_auth_service:3000" });
 });

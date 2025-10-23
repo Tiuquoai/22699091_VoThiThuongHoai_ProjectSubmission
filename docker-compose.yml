@@ -1,6 +1,18 @@
 version: "3.9" 
 
 services:
+  tiuquoai_mongodb :
+    image: mongo:6.0        
+    container_name: tiuquoai_mongodb
+    ports:
+      - "27018:27017"         
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: tiuquoai_admin   
+      MONGO_INITDB_ROOT_PASSWORD: mongodb123
+    volumes:
+      - tiuquoai_mongodb_data:/data/db       
+    restart: unless-stopped
+
   tiuquoai_rabbitmq : 
     image : rabbitmq:4-management
     container_name: tiuquoai_rabbitmq
@@ -40,6 +52,11 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - tiuquoai_rabbitmq
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGODB_PRODUCT_URI=${MONGODB_PRODUCT_URI}
+      - MONGODB_AUTH_URI=${MONGODB_AUTH_URI}
+      - MONGODB_ORDER_URI=${MONGODB_ORDER_URI}
     restart: unless-stopped
 
   tiuquoai_order_service : 
@@ -54,6 +71,11 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - tiuquoai_rabbitmq
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGODB_PRODUCT_URI=${MONGODB_PRODUCT_URI}
+      - MONGODB_AUTH_URI=${MONGODB_AUTH_URI}
+      - MONGODB_ORDER_URI=${MONGODB_ORDER_URI}
     restart: unless-stopped
 
   tiuquoai_product_service : 
@@ -68,7 +90,13 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - tiuquoai_rabbitmq
+    environment:
+      - JWT_SECRET=${JWT_SECRET}
+      - MONGODB_PRODUCT_URI=${MONGODB_PRODUCT_URI}
+      - MONGODB_AUTH_URI=${MONGODB_AUTH_URI}
+      - MONGODB_ORDER_URI=${MONGODB_ORDER_URI}
     restart: unless-stopped
 
 volumes:
   tiuquoai_rabbitmq_data:
+  tiuquoai_mongodb_data:  

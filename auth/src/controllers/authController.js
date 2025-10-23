@@ -10,6 +10,7 @@ class AuthController {
   }
 
   async login(req, res) {
+    console.log('ahihi')
     const { username, password } = req.body;
 
     const result = await this.authService.login(username, password);

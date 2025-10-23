@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const config = require("./config");
 const authMiddleware = require("./middlewares/authMiddleware");
 const AuthController = require("./controllers/authController");
+const User = require("./models/user");
+const bcrypt = require("bcryptjs");
 
 class App {
   constructor() {
@@ -31,13 +33,37 @@ class App {
     this.app.use(express.urlencoded({ extended: false }));
   }
 
+  async seedDB() {
+    try {
+      // Kiểm tra xem tài khoản testuser đã tồn tại chưa
+      const existingUser = await User.findOne({ username: "testuser" });
+      if (!existingUser) {
+        // Hash mật khẩu
+        const hashedPassword = await bcrypt.hash("123456", 10);
+
+        // Tạo tài khoản testuser
+        await User.create({
+          username: "testuser",
+          password: hashedPassword,
+        });
+        console.log("Test user seeded successfully");
+      } else {
+        console.log("Test user already exists, skipping seeding");
+      }
+    } catch (error) {
+      console.error("Seeding error:", error);
+      throw error;
+    }
+  }
+
   setRoutes() {
     this.app.post("/auth/api/v1/login", (req, res) => this.authController.login(req, res));
     this.app.post("/auth/api/v1/register", (req, res) => this.authController.register(req, res));
     this.app.get("/auth/api/v1/dashboard", authMiddleware, (req, res) => res.json({ message: "Welcome to dashboard" }));
   }
 
-  start() {
+  async start() {
+    await this.seedDB();
     this.server = this.app.listen(3000, () => console.log("Server started on port 3000"));
   }
 

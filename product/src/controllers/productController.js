@@ -1,3 +1,4 @@
+const { json } = require("express");
 const Product = require("../models/product");
 const messageBroker = require("../utils/messageBroker");
 const uuid = require('uuid');
@@ -110,6 +111,15 @@ class ProductController {
       res.status(500).json({ message: "Server error" });
     }
   }
-}
 
+  async getProductById(req, res, next) {
+    try {
+      const p = await Product.findById(req.params.id);
+      if (!p) return res.status(404).json({msg: "not found"})
+        res.json(p);
+    } catch (e) {
+      res.status(500).json({msg: e.message});
+    }
+  }
+}
 module.exports = ProductController;
