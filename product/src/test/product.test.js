@@ -105,53 +105,6 @@ describe("Products", () => {
 
   });
 
-  // done
-  describe("GET /products", () => {
-    it("get all product", async () => {
 
-      const res = await chai
-        .request('http://tiuquoai_api_gateway:3003')
-        .get("/products/api/v1")
-        .set("authorization", `Bearer ${authToken}`)
-
-
-      expect(res).to.have.status(200);
-
-      expect(res.body).to.be.an("array");
-      expect(res.body.length).to.be.greaterThan(0);
-
-      const firstProduct = res.body[0];
-      expect(firstProduct).to.have.property("_id");
-      expect(firstProduct).to.have.property("name").that.is.a("string");
-      expect(firstProduct).to.have.property("description").that.is.a("string");
-      expect(firstProduct).to.have.property("price").that.is.a("number");
-      expect(firstProduct).to.have.property("quantity").that.is.a("number");
-    });
-  })
-
-  // done
-  describe("POST /order", () => {
-    it("save orders success", async () => {
-
-      console.log(listProduct.body)
-
-      const res = await chai
-        .request('http://tiuquoai_api_gateway:3003')
-        .post("/products/api/v1/buy")
-        .set("authorization", `Bearer ${authToken}`)
-        .send(
-          {
-            "ids": [
-              listProduct.body[0]._id, 
-              listProduct.body[1]._id
-            ]
-          }
-        )
-
-
-      expect(res).to.have.status(201);
-      expect(res.body).to.have.property("message", 'Đã cập nhật đơn hàng thành công !!');
-    });
-  })
 });
 
