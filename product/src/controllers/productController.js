@@ -2,6 +2,7 @@ const { json } = require("express");
 const Product = require("../models/product");
 const messageBroker = require("../utils/messageBroker");
 const uuid = require('uuid');
+const ProductService = require("../services/productsService");
 
 /**
  * Class to hold the API implementation for the product services
@@ -12,7 +13,7 @@ class ProductController {
     this.createOrder = this.createOrder.bind(this);
     this.getOrderStatus = this.getOrderStatus.bind(this);
     this.ordersMap = new Map();
-
+    this.productService = new ProductService();
   }
 
   async createProduct(req, res, next) {
@@ -114,7 +115,7 @@ class ProductController {
 
   async getProductById(req, res, next) {
     try {
-      const p = await Product.findById(req.params.id);
+      const p = await this.productService.getProductById(req.params.id);
       if (!p) return res.status(404).json({msg: "not found"})
         res.json(p);
     } catch (e) {
