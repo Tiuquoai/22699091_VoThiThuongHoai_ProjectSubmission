@@ -3,7 +3,11 @@ const httpProxy = require("http-proxy");
 
 const proxy = httpProxy.createProxyServer();
 const app = express();
+const morgan = require('morgan');
 
+
+
+app.use(morgan('tiny'));
 // Route requests to the auth service
 app.use("/auth", (req, res) => {
   console.log('tôi đã vào đây')

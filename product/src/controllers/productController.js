@@ -14,6 +14,7 @@ class ProductController {
     this.getOrderStatus = this.getOrderStatus.bind(this);
     this.ordersMap = new Map();
     this.productService = new ProductService();
+    this.getProductById = this.getProductById.bind(this);
   }
 
   async createProduct(req, res, next) {
@@ -114,11 +115,13 @@ class ProductController {
   }
 
   async getProductById(req, res, next) {
+    console.log(req.params.id)
     try {
       const p = await this.productService.getProductById(req.params.id);
       if (!p) return res.status(404).json({msg: "not found"})
         res.json(p);
     } catch (e) {
+      console.error(e);
       res.status(500).json({msg: e.message});
     }
   }

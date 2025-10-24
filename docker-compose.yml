@@ -38,6 +38,7 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - tiuquoai_rabbitmq
+      - tiuquoai_mongodb
     restart: unless-stopped
 
   tiuquoai_auth_service : 
@@ -52,6 +53,7 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - tiuquoai_rabbitmq
+      - tiuquoai_mongodb
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - MONGODB_PRODUCT_URI=${MONGODB_PRODUCT_URI}
@@ -71,6 +73,7 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - tiuquoai_rabbitmq
+      - tiuquoai_mongodb
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - MONGODB_PRODUCT_URI=${MONGODB_PRODUCT_URI}
@@ -90,6 +93,7 @@ services:
       - /usr/src/app/node_modules
     depends_on:
       - tiuquoai_rabbitmq
+      - tiuquoai_mongodb
     environment:
       - JWT_SECRET=${JWT_SECRET}
       - MONGODB_PRODUCT_URI=${MONGODB_PRODUCT_URI}

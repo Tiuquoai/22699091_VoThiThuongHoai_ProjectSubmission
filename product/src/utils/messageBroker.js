@@ -17,7 +17,7 @@ class MessageBroker {
       } catch (err) {
         console.error("Failed to connect to RabbitMQ:", err.message);
       }
-    }, 20000); // delay 10 seconds to wait for RabbitMQ to start
+    }, 25000); // delay 10 seconds to wait for RabbitMQ to start
   }
 
   async publishMessage(queue, message) {
